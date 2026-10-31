@@ -1,0 +1,13 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: financetracker-configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:${user.dir}/../../
+          search-paths: cloud/repo
+          default-label: server/configrepo
+          clone-on-start: true

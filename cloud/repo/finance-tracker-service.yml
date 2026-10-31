@@ -1,0 +1,7 @@
+database:
+  name: financetracker
+
+eureka:
+  client:
+    webclient:
+      enabled: true

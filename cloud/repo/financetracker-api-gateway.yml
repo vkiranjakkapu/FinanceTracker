@@ -1,0 +1,18 @@
+server:
+  forward-headers-strategy: framework
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: financetracker-identity-service
+              uri: lb://financetracker-identity-service
+              predicates:
+                - Path=/identity/**
+
+            - id: financetracker-service
+              uri: lb://financetracker-service
+              predicates:
+                - Path=/finance/**

@@ -1,0 +1,16 @@
+spring:
+    application:
+        name: financetracker-identity-service
+    config:
+        import: configserver:http://localhost:8888
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://${database.host}:${database.port}/${database.name}
+        username: ${database.username}
+        password: ${database.password}
+    jpa:
+        hibernate:
+            ddl-auto: update
+    sql:
+        init:
+            mode: always

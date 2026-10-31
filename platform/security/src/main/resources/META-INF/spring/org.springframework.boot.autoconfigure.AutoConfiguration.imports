@@ -1,0 +1,2 @@
+com.platform.security.config.SecurityInfraAutoConfiguration
+com.platform.security.config.SecurityWebAutoConfiguration

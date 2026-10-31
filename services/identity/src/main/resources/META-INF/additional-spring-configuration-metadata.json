@@ -1,0 +1,53 @@
+{"properties": [
+  {
+    "name": "spring.jpa.properties.hibernate.format_sql",
+    "type": "java.lang.Boolean",
+    "description": "show SQL in console",
+    "defaultValue": false
+  },
+  {
+    "name": "platform.logging.exception-logging.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.logging.exception-logging.enabled'"
+  },
+  {
+    "name": "platform.logging.file.directory",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.logging.file.directory'"
+  },
+  {
+    "name": "platform.logging.file.name",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.logging.file.name'"
+  },
+  {
+    "name": "platform.logging.file.max-size",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.logging.file.max-size'"
+  },
+  {
+    "name": "platform.logging.file.max-history",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.logging.file.max-history'"
+  },
+  {
+    "name": "platform.logging.file.total-size-cap",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.logging.file.total-size-cap'"
+  },
+  {
+    "name": "platform.rest-client.propagation.context.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.rest-client.propagation.context.enabled'"
+  },
+  {
+    "name": "platform.rest-client.propagation.bearer-token.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.rest-client.propagation.bearer-token.enabled'"
+  },
+  {
+    "name": "platform.web.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'platform.web.enabled'"
+  }
+]}

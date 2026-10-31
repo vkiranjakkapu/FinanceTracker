@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+
+    <appender
+        name="FILE"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${ACTIVE_LOG_FILE}</file>
+
+        <encoder>
+            <pattern>${FILE_PATTERN}</pattern>
+        </encoder>
+
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+
+            <fileNamePattern>${ARCHIVE_LOG_PATTERN}</fileNamePattern>
+
+            <maxFileSize>${LOG_MAX_FILE_SIZE}</maxFileSize>
+
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+
+            <totalSizeCap>${LOG_TOTAL_SIZE_CAP}</totalSizeCap>
+
+        </rollingPolicy>
+
+    </appender>
+
+</included>

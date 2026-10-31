@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+
+    <property
+        name="DEFAULT_LOG_PATTERN"
+        value="${DEFAULT_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%property{APPLICATION_NAME}] [%thread] [corr=%X{correlationId:-N/A}] %logger{36} - %msg%n}" />
+
+    <springProperty
+        scope="context"
+        name="CONSOLE_PATTERN"
+        source="platform.logging.pattern.console"
+        defaultValue="${DEFAULT_LOG_PATTERN}" />
+
+    <springProperty
+        scope="context"
+        name="FILE_PATTERN"
+        source="platform.logging.pattern.file"
+        defaultValue="${DEFAULT_LOG_PATTERN}" />
+
+</included>

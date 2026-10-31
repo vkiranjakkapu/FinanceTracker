@@ -1,0 +1,151 @@
+{"properties": [
+  {
+    "name": "platform.security.enabled",
+    "type": "java.lang.Boolean",
+    "description": "Enable or disable platform security.",
+    "defaultValue": false
+  },
+  {
+    "name": "platform.security.public-paths",
+    "type": "java.util.List<java.lang.String>",
+    "description": "Public paths that do not require authentication."
+  },
+  {
+    "name": "platform.security.admin-paths",
+    "type": "java.util.List<java.lang.String>",
+    "description": "Admin paths that require ADMIN role."
+  },
+  {
+    "name": "platform.security.authentication.enabled",
+    "type": "java.lang.Boolean",
+    "description": "Enable or disable authentication.",
+    "defaultValue": false
+  },
+  {
+    "name": "platform.security.authorization.enabled",
+    "type": "java.lang.Boolean",
+    "description": "Enable or disable authorization.",
+    "defaultValue": false
+  },
+  {
+    "name": "platform.security.jwt.enabled",
+    "type": "java.lang.Boolean",
+    "description": "Enable or disable JWT support.",
+    "defaultValue": false
+  },
+  {
+    "name": "platform.security.jwt.header-name",
+    "type": "java.lang.String",
+    "description": "JWT header name used for authentication."
+  },
+  {
+    "name": "platform.security.jwt.token-prefix",
+    "type": "java.lang.String",
+    "description": "Prefix used for JWT tokens in the authorization header."
+  },
+  {
+    "name": "platform.security.jwt.secret",
+    "type": "java.lang.String",
+    "description": "Secret key used for JWT signature verification."
+  },
+  {
+    "name": "platform.security.jwt.issuer",
+    "type": "java.lang.String",
+    "defaultValue": "financetracker",
+    "description": "Expected JWT issuer."
+  },
+  {
+    "name": "platform.security.jwt.clock-skew",
+    "type": "java.time.Duration",
+    "defaultValue": "30s",
+    "description": "Allowed JWT clock skew."
+  },
+  {
+    "name": "platform.security.jwt.username-claim",
+    "type": "java.lang.String",
+    "defaultValue": "username",
+    "description": "Secret key used for JWT signature verification."
+  },
+  {
+    "name": "platform.security.jwt.authorities-claim",
+    "type": "java.lang.String",
+    "defaultValue": "roles",
+    "description": "Authorities Claim used."
+  },
+  {
+    "name": "platform.security.jwt.authority-prefix",
+    "type": "java.lang.String",
+    "defaultValue": "ROLE_",
+    "description": "Authority Prefix used for Roles"
+  },
+  {
+    "name": "platform.security.jwt.access-token-expiration",
+    "type": "java.time.Duration",
+    "defaultValue": "15m",
+    "description": "Access Token Expiration Duration."
+  },
+  {
+    "name": "platform.security.jwt.refresh-token-expiration",
+    "type": "java.time.Duration",
+    "defaultValue": "7d",
+    "description": "Refresh Token Expiration Duration."
+  },
+  {
+    "name": "platform.security.cors.enabled",
+    "type": "java.lang.Boolean",
+    "description": "Enable or disable CORS support.",
+    "defaultValue": true
+  },
+  {
+    "name": "platform.security.cors.allowed-origin-patterns",
+    "type": "java.util.List<java.lang.String>",
+    "description": "List of allowed origins for CORS requests.",
+    "defaultValue": ["http://localhost:4200"]
+  },
+  {
+    "name": "platform.security.cors.allowed-methods",
+    "type": "java.util.List<java.lang.String>",
+    "description": "List of allowed HTTP methods for CORS requests.",
+    "defaultValue": [
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  {
+    "name": "platform.security.cors.allowed-headers",
+    "type": "java.util.List<java.lang.String>",
+    "description": "List of allowed headers for CORS requests.",
+    "defaultValue": ["*"]
+  },
+  {
+    "name": "platform.security.cors.exposed-headers",
+    "type": "java.util.List<java.lang.String>",
+    "description": "List of headers exposed to the client in CORS responses."
+  },
+  {
+    "name": "platform.security.cors.allow-credentials",
+    "type": "java.lang.Boolean",
+    "description": "Allow credentials in CORS requests.",
+    "defaultValue": true
+  },
+  {
+    "name": "platform.security.cors.max-age",
+    "type": "java.lang.Long",
+    "description": "Maximum age in seconds for CORS preflight responses.",
+    "defaultValue": 3600
+  },
+  {
+    "name": "azure.speech.key",
+    "type": "java.lang.String",
+    "description": "A description for 'azure.speech.key'"
+  },
+  {
+    "name": "azure.speech.region",
+    "type": "java.lang.String",
+    "description": "A description for 'azure.speech.region'"
+  }
+]}

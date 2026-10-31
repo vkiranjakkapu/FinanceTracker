@@ -1,0 +1,118 @@
+{
+  "groups": [
+    {
+      "name": "platform.logging",
+      "type": "com.platform.logging.properties.LoggingProperties",
+      "description": "platform logging configuration."
+    },
+    {
+      "name": "platform.logging.request",
+      "type": "com.platform.logging.properties.LoggingProperties.RequestProperties",
+      "description": "Request logging configuration."
+    },
+    {
+      "name": "platform.logging.exception",
+      "type": "com.platform.logging.properties.LoggingProperties.ExceptionProperties",
+      "description": "Exception logging configuration."
+    },
+    {
+      "name": "platform.logging.console",
+      "type": "com.platform.logging.properties.LoggingProperties.ConsoleProperties",
+      "description": "Console logging configuration."
+    },
+    {
+      "name": "platform.logging.rolling-file",
+      "type": "com.platform.logging.properties.LoggingProperties.RollingFileProperties",
+      "description": "Rolling file logging configuration."
+    }
+  ],
+  "properties": [
+    {
+      "name": "platform.logging.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable or disable the platform logging starter.",
+      "defaultValue": true
+    },
+    {
+      "name": "platform.logging.level",
+      "type": "org.springframework.boot.logging.LogLevel",
+      "description": "Root logging level used by the logging starter.",
+      "defaultValue": "INFO"
+    },
+
+    {
+      "name": "platform.logging.request.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable request logging.",
+      "defaultValue": true
+    },
+    {
+      "name": "platform.logging.request.include-query-string",
+      "type": "java.lang.Boolean",
+      "description": "Include HTTP query parameters in request logs.",
+      "defaultValue": true
+    },
+    {
+      "name": "platform.logging.request.include-client-ip",
+      "type": "java.lang.Boolean",
+      "description": "Include client IP address in request logs.",
+      "defaultValue": false
+    },
+    {
+      "name": "platform.logging.request.excluded-paths",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Ant-style URL patterns that should be excluded from request logging."
+    },
+
+    {
+      "name": "platform.logging.exception.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable exception logging support.",
+      "defaultValue": true
+    },
+
+    {
+      "name": "platform.logging.console.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable console logging.",
+      "defaultValue": true
+    },
+
+    {
+      "name": "platform.logging.rolling-file.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable rolling file logging.",
+      "defaultValue": true
+    },
+    {
+      "name": "platform.logging.rolling-file.directory",
+      "type": "java.lang.String",
+      "description": "Directory where log files are written.",
+      "defaultValue": "logs"
+    },
+    {
+      "name": "platform.logging.rolling-file.name",
+      "type": "java.lang.String",
+      "description": "Base name of the log file.",
+      "defaultValue": "application"
+    },
+    {
+      "name": "platform.logging.rolling-file.max-size",
+      "type": "org.springframework.util.unit.DataSize",
+      "description": "Maximum size of an individual log file before rolling occurs.",
+      "defaultValue": "100MB"
+    },
+    {
+      "name": "platform.logging.rolling-file.max-history",
+      "type": "java.lang.Integer",
+      "description": "Maximum number of days to retain archived log files.",
+      "defaultValue": 30
+    },
+    {
+      "name": "platform.logging.rolling-file.total-size-cap",
+      "type": "org.springframework.util.unit.DataSize",
+      "description": "Maximum total size allowed for all archived log files.",
+      "defaultValue": "5GB"
+    }
+  ]
+}

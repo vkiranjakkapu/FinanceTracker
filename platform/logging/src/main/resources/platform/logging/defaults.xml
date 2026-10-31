@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Application Logging
+
+    Shared logging defaults.
+
+    Do not modify directly.
+    Override supported customization points instead.
+-->
+
+<configuration>
+
+    <!-- ========================================================== -->
+    <!-- Spring Environment                                         -->
+    <!-- ========================================================== -->
+
+    <springProperty
+        scope="context"
+        name="APPLICATION_NAME"
+        source="spring.application.name"
+        defaultValue="unknown" />
+
+    <springProperty
+        scope="context"
+        name="LOG_LEVEL"
+        source="platform.logging.level"
+        defaultValue="INFO" />
+
+    <springProperty
+        scope="context"
+        name="LOG_DIRECTORY"
+        source="platform.logging.file.directory"
+        defaultValue="logs" />
+
+    <springProperty
+        scope="context"
+        name="LOG_FILE_NAME"
+        source="platform.logging.file.name"
+        defaultValue="application" />
+
+    <property
+        name="ACTIVE_LOG_FILE"
+        value="${LOG_DIRECTORY}/${LOG_FILE_NAME}.log" />
+
+    <property
+        name="ARCHIVE_LOG_PATTERN"
+        value="${LOG_DIRECTORY}/archive/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log.gz" />
+
+    <springProperty
+        scope="context"
+        name="LOG_MAX_FILE_SIZE"
+        source="platform.logging.file.max-size"
+        defaultValue="100MB" />
+
+    <springProperty
+        scope="context"
+        name="LOG_MAX_HISTORY"
+        source="platform.logging.file.max-history"
+        defaultValue="30" />
+
+    <springProperty
+        scope="context"
+        name="LOG_TOTAL_SIZE_CAP"
+        source="platform.logging.file.total-size-cap"
+        defaultValue="5GB" />
+
+    <!-- ========================================================== -->
+    <!-- Shared Resources                                           -->
+    <!-- ========================================================== -->
+
+    <include resource="platform/logging/patterns/default-pattern.xml" />
+
+    <include resource="platform/logging/appenders/console.xml" />
+
+    <include resource="platform/logging/appenders/file.xml" />
+
+    <!-- ========================================================== -->
+    <!-- Root Logger                                                -->
+    <!-- ========================================================== -->
+
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>
