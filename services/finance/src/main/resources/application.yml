@@ -1,0 +1,14 @@
+server:
+    port: 8081
+
+spring:
+    application:
+        name: financetracker-finance-service
+    config:
+        import: configserver:http://localhost:8888
+    jpa:
+        hibernate:
+            ddl-auto: update
+    sql:
+        init:
+            mode: always

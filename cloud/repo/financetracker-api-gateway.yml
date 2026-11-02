@@ -1,3 +1,8 @@
+platform:
+  security:
+    cors:
+      enabled: true
+
 server:
   forward-headers-strategy: framework
 
