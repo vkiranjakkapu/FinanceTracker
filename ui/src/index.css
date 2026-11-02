@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-background-light: #ecf5f9;
+    --color-background-dark: #0b1817;
+    --color-background-dark-secondary: #214542;
+
+    --color-primary: #badedb;
+    --color-primary-accent: #102321;
+
+    --color-dark-primary: #cc3300;
+    --color-dark-accent: #ecf5f9;
+}
+
+@layer base {
+    * {
+        @apply border-primary-accent/30 dark:border-dark-accent/30 transition-all duration-100;
+    }
+
+    body {
+        @apply text-primary-accent dark:text-dark-accent dark:bg-dark-primary;
+    }
+
+    .notification {
+        @apply bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border-cyan-700 outline-cyan-700 dark:border-cyan-400 dark:outline-cyan-400;
+
+        &.success {
+            @apply bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-700 outline-emerald-700 dark:border-emerald-400 dark:outline-emerald-400;
+        }
+        &.error {
+            @apply bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-700 outline-rose-700 dark:border-rose-400 dark:outline-rose-400;
+        }
+        &.warn {
+            @apply bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-700 outline-amber-700 dark:border-amber-400 dark:outline-amber-400;
+        }
+    }
+
+    form {
+        @apply *:not-last:mb-1;
+
+        & > *:where(input, select, textarea):not(.form-group > *) {
+            @apply p-1;
+        }
+    }
+
+    input,
+    select,
+    textarea {
+        @apply px-2 py-1.5 w-full rounded border bg-primary/20 dark:bg-dark-accent/16 outline-none ring-primary-accent/50 dark:ring-dark-accent focus:border-primary focus:ring-2 focus:ring-offset-0;
+    }
+
+    .form-group {
+        @apply px-2 py-1.5 m-1 rounded border bg-primary/20 dark:bg-dark-accent/20 flex items-center gap-1 ring-primary-accent/50 dark:ring-dark-accent/80 focus-within:border-primary focus-within:ring-2 focus-within:ring-offset-0;
+
+        & :is(input, select, textarea):not(.inherit-default) {
+            @apply rounded-none ring-0 border-0 py-0 px-1 bg-transparent;
+            &.light {
+                @apply bg-white;
+            }
+        }
+
+        & label {
+            @apply flex items-center gap-1;
+        }
+    }
+
+    .bg-theme {
+        @apply bg-white dark:bg-background-dark-secondary;
+
+        & *:not(button, input, select, textarea) {
+            @apply dark:border-dark-accent/20;
+        }
+
+        & :where(.form-group, input, select, textarea):not(.inherit-default) {
+            @apply dark:bg-dark-primary;
+        }
+    }
+
+    .section-width {
+        @apply w-full md:w-4/5 lg:w-6/7 mx-auto;
+    }
+
+    button {
+        @apply px-2 py-1 rounded border border-primary dark:border-dark-accent/30 bg-primary/90 hover:bg-primary dark:bg-dark-accent/80 hover:dark:bg-dark-accent/90 text-primary-accent outline-primary outline-1 outline-offset-1 cursor-pointer;
+
+        &.primary {
+            @apply px-2 py-1 rounded border dark:border-dark-primary/30 bg-dark-primary/90 hover:bg-dark-primary dark:bg-dark-primary dark:hover:bg-dark-primary/90 text-white dark:text-dark-accent outline-1 outline-offset-1 outline-dark-primary dark:outline-dark-primary;
+        }
+
+        &.theme-success {
+            @apply bg-emerald-700 outline-emerald-700 hover:bg-emerald-800 text-white;
+        }
+
+        &.theme-danger {
+            @apply bg-red-600 outline-red-600 hover:bg-red-500 text-white;
+        }
+    }
+}
