@@ -140,7 +140,6 @@ public class UserController {
 			@ApiResponse(responseCode = "403", description = "Insufficient permissions", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@PostMapping("/search")
-    @PreAuthorize("hasAnyRole('RIDER','DRIVER','ADMIN')")
 	public ResponseEntity<APIResponseDto<List<UserResponse>>> getAllUsersWithIds(
 			@RequestBody FetchUsersRequestDto request) {
 		return ResponseEntity
