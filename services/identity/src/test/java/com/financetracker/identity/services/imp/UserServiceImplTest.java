@@ -122,8 +122,8 @@ class UserServiceImplTest {
 				addressDto,
 				RoleType.USER);
 
-		Role riderRole = new Role();
-		riderRole.setName(RoleType.USER);
+		Role userRole = new Role();
+		userRole.setName(RoleType.USER);
 
 		when(authenticationContext.getCurrentUser())
 				.thenReturn(Optional.of(authenticatedUser("ROLE_ADMIN")));
@@ -132,7 +132,7 @@ class UserServiceImplTest {
 				.thenReturn(false);
 
 		when(roleRepository.findByName(RoleType.USER))
-				.thenReturn(Optional.of(riderRole));
+				.thenReturn(Optional.of(userRole));
 
 		when(passwordEncoder.encode(any()))
 				.thenReturn("encoded-password");
@@ -178,7 +178,7 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	void createUser_ShouldThrow_WhenCurrentUserIsRider() {
+	void createUser_ShouldThrow_WhenCurrentUserIsUser() {
 
 		CreateUserRequestDto request = new CreateUserRequestDto(
 				"john@test.com",
