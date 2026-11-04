@@ -1,3 +1,7 @@
+spring:
+  mongodb:
+    uri: mongodb://${MONGODB_HOST:localhost}:${MONGODB_PORT:27017}/financetracker
+
 eureka:
   client:
     webclient:

@@ -3,9 +3,6 @@ platform:
     cors:
       enabled: true
 
-server:
-  forward-headers-strategy: framework
-
 spring:
   cloud:
     gateway:
@@ -18,6 +15,6 @@ spring:
                 - Path=/identity/**
 
             - id: financetracker-service
-              uri: lb://financetracker-service
+              uri: lb://financetracker-finance-service
               predicates:
                 - Path=/finance/**

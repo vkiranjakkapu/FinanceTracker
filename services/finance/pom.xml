@@ -10,9 +10,8 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>com.financetracker</groupId>
 	<artifactId>finance</artifactId>
-
+	<packaging>jar</packaging>
 
 	<name>Finance Service</name>
 
@@ -21,6 +20,11 @@
 		<dependency>
 			<groupId>com.platform</groupId>
 			<artifactId>security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 
 	</dependencies>
