@@ -31,7 +31,7 @@ export default function SectionLayoutComponent({
     return (
         <section
             {...props}
-            className={`space-y-3 p-4 lg:p-5 bg-theme rounded divide-y *:not-last:pb-1.5 *:not-last:mt-1.5 ${props.className}`}
+            className={`space-y-3 p-4 lg:p-5 bg-theme rounded divide-y *:not-last:pb-3 ${props.className}`}
         >
             {(title || description || actionButtons) && (
                 <div className="flex flex-wrap items-center justify-between">

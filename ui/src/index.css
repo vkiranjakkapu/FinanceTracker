@@ -74,7 +74,7 @@
         }
 
         & :where(.form-group, input, select, textarea):not(.inherit-default) {
-            @apply dark:bg-dark-primary;
+            @apply dark:bg-dark-accent/20;
         }
     }
 
