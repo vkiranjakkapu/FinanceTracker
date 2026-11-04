@@ -9,6 +9,7 @@ export type InputComponentProps = Omit<
     label?: LabelElementProps;
     customise?: string;
     children?: ReactNode;
+    resultsLabel?: string;
     ref?: Ref<HTMLInputElement>;
 };
 

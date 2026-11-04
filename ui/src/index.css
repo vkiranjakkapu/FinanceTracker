@@ -37,6 +37,10 @@
         }
     }
 
+    .text-danger {
+        @apply text-rose-600 dark:text-rose-400;
+    }
+
     form {
         @apply *:not-last:mb-1;
 

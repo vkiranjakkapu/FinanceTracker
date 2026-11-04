@@ -1,6 +1,9 @@
-import type { HTMLAttributes, InputHTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import type { ActionButtonProps } from "../ActionButtonComponent";
 import ActionButton from "../ActionButtonComponent";
+import InputComponent, {
+    type InputComponentProps,
+} from "../formelements/InputComponent";
 import {
     PaginationButtons,
     type PaginationButtonsProps,
@@ -14,7 +17,7 @@ export type SectionLayoutComponentProps = HTMLAttributes<HTMLDivElement> & {
     description?: string;
     actionButtons?: ActionButtonProps[];
     pagination?: PaginationButtonsProps;
-    search?: InputHTMLAttributes<HTMLInputElement>;
+    search?: InputComponentProps;
     spinner?: SpinnerComponentProps;
 };
 
@@ -58,7 +61,22 @@ export default function SectionLayoutComponent({
             )}
             {((pagination && pagination.totalPages > 1) || search) && (
                 <div className="flex flex-wrap items-center justify-between">
-                    <div>{search && <input {...search} />}</div>
+                    <div className="flex flex-wrap items-center gap-2">
+                        {search &&
+                            (() => {
+                                const { resultsLabel, ...props } = search;
+                                return (
+                                    <>
+                                        <InputComponent {...props} />
+                                        {resultsLabel && (
+                                            <span className="text-sm">
+                                                {resultsLabel}
+                                            </span>
+                                        )}
+                                    </>
+                                );
+                            })()}
+                    </div>
                     <div>
                         {pagination && <PaginationButtons {...pagination} />}
                     </div>

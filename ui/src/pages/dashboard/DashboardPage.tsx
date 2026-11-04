@@ -15,6 +15,7 @@ import {
 
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import type { ErrorResponse } from "../../api/api";
+import type { InputComponentProps } from "../../components/formelements/InputComponent";
 import SectionLayoutComponent from "../../components/layout/SectionLayoutComponent";
 import Notification, {
     type NotificationProps,
@@ -93,16 +94,23 @@ export default function DashboardPage() {
             description="Your financial overview at a glance."
             search={
                 !errors && dashboard
-                    ? {
+                    ? ({
                           type: "month",
-                          defaultValue: month.trim()
-                              ? month
-                              : getCurrentMonth(),
+                          defaultValue: month,
                           onChange(e) {
                               setLoading(true);
                               setMonth(e.target.value);
                           },
-                      }
+                          resultsLabel: !month.trim()
+                              ? `Showing data for ${DateFormatter.toFormattedDate(
+                                    getCurrentMonth(),
+                                    {
+                                        month: "short",
+                                        year: "numeric",
+                                    },
+                                )}`
+                              : undefined,
+                      } as InputComponentProps)
                     : undefined
             }
             spinner={{
@@ -143,7 +151,7 @@ export default function DashboardPage() {
                                 title="Total Expenses"
                                 amount={dashboard.totalExpenses}
                                 description="Expenses recorded this month"
-                                color="text-rose-600"
+                                color="text-danger"
                             />
 
                             <SummaryCard
@@ -153,7 +161,7 @@ export default function DashboardPage() {
                                 color={
                                     dashboard.balance >= 0
                                         ? "text-emerald-600"
-                                        : "text-rose-600"
+                                        : "text-danger"
                                 }
                             />
                         </div>
@@ -162,9 +170,12 @@ export default function DashboardPage() {
                         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
                             <SectionCard title="Monthly Income vs Expenses">
                                 {monthlyTrends.length === 0 ? (
-                                    <p className="py-12 text-center text-sm text-slate-500">
-                                        No monthly trend data available.
-                                    </p>
+                                    <Notification
+                                        type="info"
+                                        messages={
+                                            "No monthly trend data available."
+                                        }
+                                    />
                                 ) : (
                                     <div className="h-72 w-full">
                                         <ResponsiveContainer
@@ -218,10 +229,12 @@ export default function DashboardPage() {
 
                             <SectionCard title="Expense Breakdown">
                                 {categoryExpenses.length === 0 ? (
-                                    <p className="py-12 text-center text-sm text-slate-500">
-                                        No expense data available for this
-                                        month.
-                                    </p>
+                                    <Notification
+                                        type="info"
+                                        messages={
+                                            "No expense data available for this month."
+                                        }
+                                    />
                                 ) : (
                                     <div className="h-72 w-full">
                                         <ResponsiveContainer
@@ -354,67 +367,59 @@ export default function DashboardPage() {
                         </SectionCard>
 
                         {/* Recent transactions */}
-                        {!dashboard.recentTransactions.length ? (
-                            <p className="py-8 text-center text-sm text-slate-500">
-                                No transactions recorded this month.
-                            </p>
-                        ) : (
-                            <TableComponent
-                                title="Recent Transactions"
-                                description="Only the recent transactions were shown below."
-                                className="bg-theme rounded-xl border hover:shadow-md"
-                                body={dashboard.recentTransactions}
-                                columns={[
-                                    {
-                                        key: "description",
+                        <TableComponent
+                            title="Recent Transactions"
+                            description="Only the recent transactions were shown below."
+                            emptyDataMessage="No transactions recorded this month."
+                            className="bg-theme rounded-xl border hover:shadow-md"
+                            body={dashboard.recentTransactions}
+                            columns={[
+                                {
+                                    key: "description",
+                                },
+                                {
+                                    key: "categoryName",
+                                    alias: "category",
+                                },
+                                {
+                                    key: "transactionDate",
+                                    alias: "Date",
+                                    renderColumn(val) {
+                                        return DateFormatter.toFormattedDate(
+                                            String(val),
+                                            {
+                                                dateStyle: "medium",
+                                            },
+                                        );
                                     },
-                                    {
-                                        key: "categoryName",
-                                        alias: "category",
-                                    },
-                                    {
-                                        key: "transactionDate",
-                                        alias: "Date",
-                                        renderColumn(val) {
-                                            return DateFormatter.toFormattedDate(
-                                                String(val),
-                                                {
-                                                    dateStyle: "medium",
-                                                },
-                                            );
-                                        },
-                                    },
-                                    {
-                                        key: "amount",
-                                        renderType: "html",
-                                        renderColumn(val, transaction) {
-                                            return (
-                                                <span
-                                                    className={`${
-                                                        transaction?.type ===
-                                                        "INCOME"
-                                                            ? "text-emerald-600"
-                                                            : "text-rose-600"
-                                                    }`}
-                                                >
-                                                    {transaction?.type ===
+                                },
+                                {
+                                    key: "amount",
+                                    renderType: "html",
+                                    renderColumn(val, transaction) {
+                                        return (
+                                            <span
+                                                className={`${
+                                                    transaction?.type ===
                                                     "INCOME"
-                                                        ? "+"
-                                                        : "-"}
-                                                    {formatCurrency(
-                                                        Number(val),
-                                                    )}
-                                                </span>
-                                            );
-                                        },
+                                                        ? "text-emerald-600"
+                                                        : "text-danger"
+                                                }`}
+                                            >
+                                                {transaction?.type === "INCOME"
+                                                    ? "+"
+                                                    : "-"}
+                                                {formatCurrency(Number(val))}
+                                            </span>
+                                        );
                                     },
-                                ]}
-                            />
-                        )}
+                                },
+                            ]}
+                        />
 
                         <p className="text-right text-xs">
                             {`Showing data for ${DateFormatter.toFormattedDate(
-                                month,
+                                month.trim() ? month : getCurrentMonth(),
                                 {
                                     month: "short",
                                     year: "numeric",

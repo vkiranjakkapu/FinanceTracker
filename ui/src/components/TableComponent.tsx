@@ -90,6 +90,7 @@ export type TableComponentProps<T> = TableHTMLAttributes<HTMLTableElement> & {
 
     tableClassName?: string;
     actionButtons?: ActionButtonProps[];
+    emptyDataMessage?: string;
 
     /**
      * Defines additional action columns displayed at the end
@@ -324,6 +325,7 @@ export default function TableComponent<T>({
     search,
     pagination,
     tableClassName,
+    emptyDataMessage,
     ...props
 }: TableComponentProps<T>) {
     /**
@@ -354,7 +356,9 @@ export default function TableComponent<T>({
             : [];
 
     return (
-        <section className={`rounded divide-y dark:bg-background-dark ${props.className}`}>
+        <section
+            className={`rounded divide-y dark:bg-background-dark ${props.className}`}
+        >
             {(title || description || actionButtons) && (
                 <div className="p-5! flex flex-wrap items-center justify-between">
                     <div className="space-y-1">
@@ -542,7 +546,9 @@ export default function TableComponent<T>({
                             </tbody>
                         </table>
                     ) : (
-                        <span className="text-sm px-5">No Data to display</span>
+                        <p className="text-sm p-5!">
+                            {emptyDataMessage ?? `No Data to display`}
+                        </p>
                     )}
                 </div>
             )}

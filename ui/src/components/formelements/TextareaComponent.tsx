@@ -8,6 +8,7 @@ export type TextareaComponentProps = Omit<
     id: string;
     label?: LabelElementProps;
     customise?: string;
+    resultsLabel?: string;
 };
 
 export default function TextareaComponent({
