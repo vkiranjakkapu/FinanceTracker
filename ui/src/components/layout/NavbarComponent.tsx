@@ -1,8 +1,11 @@
 import {
     ArrowLeftStartOnRectangleIcon,
+    BanknotesIcon,
     ChartBarIcon,
+    CircleStackIcon,
+    SwatchIcon,
     UserIcon,
-    UserPlusIcon
+    UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuthContext, { RoleType } from "../../context/useAuthContext";
@@ -37,6 +40,24 @@ export default function NavbarComponent({
             page: "Dashboard",
             uri: RoutePaths.DASHBOARD,
             icon: ChartBarIcon,
+            roles: [RoleType.ADMIN],
+        },
+        {
+            page: "Transactions",
+            uri: RoutePaths.TRANSACTIONS,
+            icon: BanknotesIcon,
+            roles: [RoleType.ADMIN],
+        },
+        {
+            page: "Categories",
+            uri: RoutePaths.CATEGORIES,
+            icon: SwatchIcon,
+            roles: [RoleType.ADMIN],
+        },
+        {
+            page: "Budgets",
+            uri: RoutePaths.BUDGETS,
+            icon: CircleStackIcon,
             roles: [RoleType.ADMIN],
         },
         {

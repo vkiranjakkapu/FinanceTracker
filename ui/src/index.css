@@ -37,6 +37,10 @@
         }
     }
 
+    .text-danger {
+        @apply text-rose-600 dark:text-rose-400;
+    }
+
     form {
         @apply *:not-last:mb-1;
 
@@ -74,7 +78,7 @@
         }
 
         & :where(.form-group, input, select, textarea):not(.inherit-default) {
-            @apply dark:bg-dark-primary;
+            @apply dark:bg-dark-accent/20;
         }
     }
 

@@ -12,6 +12,7 @@ export type SelectComponentProps = Omit<
     emptyOption?: string;
 
     customise?: string;
+    resultsLabel?: string;
 };
 
 export default function SelectComponent({

@@ -1,5 +1,6 @@
 import {
     type InputHTMLAttributes,
+    type ReactNode,
     type TableHTMLAttributes,
     type TdHTMLAttributes,
 } from "react";
@@ -89,6 +90,7 @@ export type TableComponentProps<T> = TableHTMLAttributes<HTMLTableElement> & {
 
     tableClassName?: string;
     actionButtons?: ActionButtonProps[];
+    emptyDataMessage?: string;
 
     /**
      * Defines additional action columns displayed at the end
@@ -213,10 +215,11 @@ export type HeaderAlias<T> = {
      *
      * Values suplied is used as 'className' for the column value cells
      */
-    customiseColumn?: string;
+    className?: string;
 
-    props?: (val: unknown) => TdHTMLAttributes<HTMLElement>;
-    renderColumn?: (val: unknown) => unknown | BadgeProps;
+    props?: (row?: T) => TdHTMLAttributes<HTMLElement>;
+    renderColumn?: (val: unknown, row?: T) => string | BadgeProps | ReactNode;
+    renderType?: "string" | "badge" | "html";
 };
 
 /**
@@ -322,6 +325,7 @@ export default function TableComponent<T>({
     search,
     pagination,
     tableClassName,
+    emptyDataMessage,
     ...props
 }: TableComponentProps<T>) {
     /**
@@ -352,7 +356,9 @@ export default function TableComponent<T>({
             : [];
 
     return (
-        <section className={`rounded divide-y ${props.className}`}>
+        <section
+            className={`rounded divide-y dark:bg-background-dark ${props.className}`}
+        >
             {(title || description || actionButtons) && (
                 <div className="p-5! flex flex-wrap items-center justify-between">
                     <div className="space-y-1">
@@ -431,21 +437,24 @@ export default function TableComponent<T>({
                                     >
                                         {cols.map((column) => {
                                             const hasLineClamp =
-                                                column.customiseColumn?.includes(
+                                                column.className?.includes(
                                                     "line-clamp",
                                                 );
                                             const value = item[column.key];
                                             const tdVal = column.renderColumn
-                                                ? column.renderColumn(value)
+                                                ? column.renderColumn(
+                                                      value,
+                                                      column as T,
+                                                  )
                                                 : value;
                                             return (
                                                 <td
                                                     key={String(column.key)}
-                                                    className={`relative overflow-hidden ${column.customiseColumn}`}
+                                                    className={`relative overflow-hidden ${column.className}`}
                                                     {...(() => {
                                                         if (column.props) {
                                                             return column.props(
-                                                                value,
+                                                                column as T,
                                                             );
                                                         }
                                                     })()}
@@ -454,7 +463,7 @@ export default function TableComponent<T>({
                                                         <>
                                                             <div
                                                                 className={
-                                                                    column.customiseColumn
+                                                                    column.className
                                                                 }
                                                             >
                                                                 {String(tdVal)}
@@ -463,20 +472,28 @@ export default function TableComponent<T>({
                                                         </>
                                                     ) : (
                                                         (() => {
-                                                            if (
-                                                                typeof tdVal ===
-                                                                "object"
-                                                            ) {
-                                                                return (
-                                                                    <BadgeComponent
-                                                                        {...(tdVal as BadgeProps)}
-                                                                    />
-                                                                );
-                                                            } else {
-                                                                return String(
-                                                                    tdVal,
-                                                                );
+                                                            const renderType =
+                                                                column.renderType;
+                                                            if (renderType) {
+                                                                if (
+                                                                    renderType ===
+                                                                    "badge"
+                                                                ) {
+                                                                    return (
+                                                                        <BadgeComponent
+                                                                            {...(tdVal as BadgeProps)}
+                                                                        />
+                                                                    );
+                                                                } else if (
+                                                                    renderType ===
+                                                                    "html"
+                                                                ) {
+                                                                    return tdVal as ReactNode;
+                                                                }
                                                             }
+                                                            return String(
+                                                                tdVal,
+                                                            );
                                                         })()
                                                     )}
                                                 </td>
@@ -529,7 +546,9 @@ export default function TableComponent<T>({
                             </tbody>
                         </table>
                     ) : (
-                        <span className="text-sm px-5">No Data to display</span>
+                        <p className="text-sm p-5!">
+                            {emptyDataMessage ?? `No Data to display`}
+                        </p>
                     )}
                 </div>
             )}
