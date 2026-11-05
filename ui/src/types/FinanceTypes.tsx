@@ -49,8 +49,8 @@ export interface BudgetUtilization {
     categoryId: string;
     categoryName: string;
     budgetAmount: number;
-    spent: number;
-    remaining: number;
+    spentAmount: number;
+    remainingAmount: number;
     utilizationPercentage: number;
 }
 

@@ -1,7 +1,7 @@
 
 package com.financetracker.finance.controllers;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -33,9 +33,9 @@ public class BudgetController {
 
     @GetMapping
     public ResponseEntity<ApiResponseDto<List<BudgetResponse>>> getBudgets(
-            @RequestParam LocalDate month) {
+            @RequestParam YearMonth month) {
 
-        List<BudgetResponse> budgets = budgetService.getBudgets(month);
+        List<BudgetResponse> budgets = budgetService.getBudgets(month.atDay(1));
 
         return ResponseEntity.ok(ApiResponseDto.<List<BudgetResponse>>builder().data(budgets).build());
     }

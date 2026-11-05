@@ -17,6 +17,7 @@ export type BadgeProps = {
             titleId?: string;
         }
     >;
+    hideIcon?: boolean;
     type?: "success" | "info" | "warning" | "danger";
     customize?: string;
 };
@@ -24,6 +25,7 @@ export type BadgeProps = {
 export default function BadgeComponent({
     value,
     icon: Icon,
+    hideIcon = false,
     type,
     customize,
 }: BadgeProps) {
@@ -32,11 +34,12 @@ export default function BadgeComponent({
             <span
                 className={`capitalize inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 transition-all duration-100 ${customize}`}
             >
-                {Icon ? (
-                    <Icon className="size-3.5 text-emerald-500" />
-                ) : (
-                    <CheckBadgeIcon className="size-3.5 text-emerald-500" />
-                )}
+                {!hideIcon &&
+                    (Icon ? (
+                        <Icon className="size-3.5 text-emerald-500" />
+                    ) : (
+                        <CheckBadgeIcon className="size-3.5 text-emerald-500" />
+                    ))}
                 {value}
             </span>
         );
@@ -46,11 +49,12 @@ export default function BadgeComponent({
             <span
                 className={`capitalize inline-flex items-center gap-1.5 rounded-full bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 px-2.5 py-1 text-xs font-medium ${customize}`}
             >
-                {Icon ? (
-                    <Icon className="size-3.5 text-cyan-500" />
-                ) : (
-                    <ClockIcon className="size-3.5 text-cyan-500" />
-                )}
+                {!hideIcon &&
+                    (Icon ? (
+                        <Icon className="size-3.5 text-cyan-500" />
+                    ) : (
+                        <ClockIcon className="size-3.5 text-cyan-500" />
+                    ))}
                 {value}
             </span>
         );
@@ -60,11 +64,12 @@ export default function BadgeComponent({
             <span
                 className={`capitalize inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-700 dark:text-amber-400 ${customize}`}
             >
-                {Icon ? (
-                    <Icon className="size-3.5 text-amber-500" />
-                ) : (
-                    <ClockIcon className="size-3.5 text-amber-500" />
-                )}
+                {!hideIcon &&
+                    (Icon ? (
+                        <Icon className="size-3.5 text-amber-500" />
+                    ) : (
+                        <ClockIcon className="size-3.5 text-amber-500" />
+                    ))}
                 {value}
             </span>
         );
@@ -74,11 +79,12 @@ export default function BadgeComponent({
             <span
                 className={`capitalize inline-flex items-center gap-1.5 rounded-full bg-rose-500/10 px-2.5 py-1 text-xs font-medium text-rose-700 dark:text-rose-400 ${customize}`}
             >
-                {Icon ? (
-                    <Icon className="size-3.5 text-rose-500" />
-                ) : (
-                    <ExclamationCircleIcon className="size-3.5 text-rose-500" />
-                )}
+                {!hideIcon &&
+                    (Icon ? (
+                        <Icon className="size-3.5 text-rose-500" />
+                    ) : (
+                        <ExclamationCircleIcon className="size-3.5 text-rose-500" />
+                    ))}
                 {value}
             </span>
         );

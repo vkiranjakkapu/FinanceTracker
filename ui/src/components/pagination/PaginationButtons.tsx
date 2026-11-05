@@ -22,7 +22,7 @@ export function PaginationButtons({
 
     return (
         <div className={`w-fit ${className}`}>
-            <div className="rounded-md overflow-hidden w-fit flex justify-self-end outline-1 outline-offset-1 outline-primary-accent dark:outline-dark-accent m-0.5">
+            <div className="rounded-md overflow-hidden w-fit flex justify-self-end outline-1 outline-offset-1 outline-dark-primary m-0.5">
                 <ActionButton
                     icon={ChevronLeftIcon}
                     className="primary rounded-r-none p-2 outline-none border-0"

@@ -51,7 +51,7 @@ export default function SectionLayoutComponent({
                         )}
                     </div>
                     {actionButtons && (
-                        <div>
+                        <div className="flex items-center gap-3">
                             {actionButtons.map((btn, idx) => (
                                 <ActionButton key={idx} {...btn} />
                             ))}

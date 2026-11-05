@@ -1,5 +1,4 @@
 import {
-    type InputHTMLAttributes,
     type ReactNode,
     type TableHTMLAttributes,
     type TdHTMLAttributes,
@@ -9,7 +8,8 @@ import type { ActionButtonProps } from "./ActionButtonComponent";
 import ActionButton from "./ActionButtonComponent";
 import type { BadgeProps } from "./BadgeComponent";
 import BadgeComponent from "./BadgeComponent";
-import { type IconProps } from "./commons";
+import type { InputComponentProps } from "./formelements/InputComponent";
+import InputComponent from "./formelements/InputComponent";
 import {
     PaginationButtons,
     type PaginationButtonsProps,
@@ -120,30 +120,16 @@ export type TableComponentProps<T> = TableHTMLAttributes<HTMLTableElement> & {
          */
         title: string;
 
+        useText?: boolean;
+
         /**
-         * Optional action configuration.
+         * Optional actions configuration.
          */
-        clickEvent: {
-            /**
-             * Text displayed for the action.
-             */
-            text?: string;
+        clickEvents: (Omit<ActionButtonProps, "onClick"> & {
+            onClick?: (item: T) => void;
+        })[];
 
-            /**
-             * customise the text displayed.
-             */
-            className?: string;
-
-            /**
-             * Icon to be displayed after the text
-             */
-            icon?: IconProps;
-
-            /**
-             * Callback invoked with the complete row item.
-             */
-            onClick: (item: T) => void;
-        };
+        className?: string;
     }[];
 
     /**
@@ -159,7 +145,7 @@ export type TableComponentProps<T> = TableHTMLAttributes<HTMLTableElement> & {
      * The table itself does not perform filtering; search behavior
      * is expected to be handled by the consumer.
      */
-    search?: InputHTMLAttributes<HTMLInputElement>;
+    search?: InputComponentProps;
 
     /**
      * Optional pagination configuration passed to the
@@ -383,10 +369,22 @@ export default function TableComponent<T>({
                 </div>
             )}
             {((pagination && pagination.totalPages > 1) || search) && (
-                <div className="p-5! flex flex-wrap items-center justify-between">
-                    <div>{search && <input {...search} />}</div>
-                    <div>
-                        {pagination && <PaginationButtons {...pagination} />}
+                <div className="px-5! py-2 flex flex-wrap items-center justify-between">
+                    <div className="flex-1">
+                        {search && (
+                            <InputComponent
+                                {...search}
+                                customise={`mx-0 w-full md:w-3/5 ${search.className}`}
+                            />
+                        )}
+                    </div>
+                    <div className="flex-1">
+                        {pagination && (
+                            <PaginationButtons
+                                {...pagination}
+                                className={`ml-auto ${pagination.className}`}
+                            />
+                        )}
                     </div>
                 </div>
             )}
@@ -417,7 +415,10 @@ export default function TableComponent<T>({
                                         ))}
                                         {actionEvents &&
                                             actionEvents.map((action, idx) => (
-                                                <th key={"ae" + idx}>
+                                                <th
+                                                    key={"ae" + idx}
+                                                    className={action.className}
+                                                >
                                                     {action.title}
                                                 </th>
                                             ))}
@@ -444,7 +445,7 @@ export default function TableComponent<T>({
                                             const tdVal = column.renderColumn
                                                 ? column.renderColumn(
                                                       value,
-                                                      column as T,
+                                                      item as T,
                                                   )
                                                 : value;
                                             return (
@@ -502,34 +503,61 @@ export default function TableComponent<T>({
                                         {actionEvents &&
                                             actionEvents.map(
                                                 (action, actionIdx) => {
-                                                    const clickEvent =
-                                                        action.clickEvent;
+                                                    const clickEvents =
+                                                        action.clickEvents;
                                                     return (
                                                         <td
                                                             key={
                                                                 "act" +
                                                                 actionIdx
                                                             }
+                                                            className={`flex gap-2 items-center ${action.className}`}
                                                         >
-                                                            {clickEvent && (
-                                                                <span
-                                                                    onClick={() => {
-                                                                        clickEvent.onClick(
-                                                                            item,
+                                                            {clickEvents &&
+                                                                clickEvents.map(
+                                                                    (
+                                                                        ev,
+                                                                        idx,
+                                                                    ) => {
+                                                                        return action.useText ? (
+                                                                            <span
+                                                                                key={
+                                                                                    "clickEvent-" +
+                                                                                    idx
+                                                                                }
+                                                                                onClick={() => {
+                                                                                    ev.onClick?.(
+                                                                                        item,
+                                                                                    );
+                                                                                }}
+                                                                                className={`cursor-pointer flex flex-row items-center gap-1 ${ev.className}`}
+                                                                            >
+                                                                                {
+                                                                                    ev.text
+                                                                                }
+                                                                                {ev.icon && (
+                                                                                    <ev.icon
+                                                                                        className={`${ev.text != undefined ? "size-4" : "size-5 mx-auto"}`}
+                                                                                    />
+                                                                                )}
+                                                                            </span>
+                                                                        ) : (
+                                                                            <ActionButton
+                                                                                {...ev}
+                                                                                key={
+                                                                                    "clickEvent-" +
+                                                                                    idx
+                                                                                }
+                                                                                className={`p-2 rounded-lg ${ev.className}`}
+                                                                                onClick={() => {
+                                                                                    ev.onClick?.(
+                                                                                        item,
+                                                                                    );
+                                                                                }}
+                                                                            />
                                                                         );
-                                                                    }}
-                                                                    className={`cursor-pointer flex flex-row items-center gap-1 ${clickEvent.className}`}
-                                                                >
-                                                                    {
-                                                                        clickEvent.text
-                                                                    }
-                                                                    {clickEvent.icon && (
-                                                                        <clickEvent.icon
-                                                                            className={`${clickEvent.text != undefined ? "size-4" : "size-5 mx-auto"}`}
-                                                                        />
-                                                                    )}
-                                                                </span>
-                                                            )}
+                                                                    },
+                                                                )}
                                                         </td>
                                                     );
                                                 },
