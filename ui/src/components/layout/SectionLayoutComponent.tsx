@@ -61,23 +61,23 @@ export default function SectionLayoutComponent({
             )}
             {((pagination && pagination.totalPages > 1) || search) && (
                 <div className="flex flex-wrap items-center justify-between">
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex-1">
                         {search &&
                             (() => {
                                 const { resultsLabel, ...props } = search;
                                 return (
-                                    <>
+                                    <div className="w-full md:w-3/5 flex flex-col gap-2">
                                         <InputComponent {...props} />
                                         {resultsLabel && (
                                             <span className="text-sm">
                                                 {resultsLabel}
                                             </span>
                                         )}
-                                    </>
+                                    </div>
                                 );
                             })()}
                     </div>
-                    <div>
+                    <div className="flex-1">
                         {pagination && <PaginationButtons {...pagination} />}
                     </div>
                 </div>

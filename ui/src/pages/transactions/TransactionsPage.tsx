@@ -540,6 +540,9 @@ export default function TransactionsPage() {
                             },
                             disabled: transactions.length === 0,
                             value: searchQuery,
+                            resultsLabel: searchQuery
+                                ? `Found ${pagination.currentItems.length} matches`
+                                : undefined,
                         }}
                         pagination={pagination}
                     />

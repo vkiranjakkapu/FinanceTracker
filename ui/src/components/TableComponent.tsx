@@ -371,12 +371,23 @@ export default function TableComponent<T>({
             {((pagination && pagination.totalPages > 1) || search) && (
                 <div className="px-5! py-2 flex flex-wrap items-center justify-between">
                     <div className="flex-1">
-                        {search && (
-                            <InputComponent
-                                {...search}
-                                customise={`mx-0 w-full md:w-3/5 ${search.className}`}
-                            />
-                        )}
+                        {search &&
+                            (() => {
+                                const { resultsLabel, ...props } = search;
+                                return (
+                                    <div className="flex flex-col gap-2 w-full md:w-3/5">
+                                        <InputComponent
+                                            {...props}
+                                            className={`mx-0 ${props.className}`}
+                                        />
+                                        {resultsLabel && (
+                                            <span className="text-sm">
+                                                {resultsLabel}
+                                            </span>
+                                        )}
+                                    </div>
+                                );
+                            })()}
                     </div>
                     <div className="flex-1">
                         {pagination && (

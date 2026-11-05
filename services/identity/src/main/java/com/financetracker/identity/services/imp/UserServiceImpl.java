@@ -141,15 +141,17 @@ public class UserServiceImpl implements UserService {
 			throw new BusinessException(IdentityExceptions.REGISTRATION_ERROR, "Two Passwords didn't match!");
 		}
 
-		if (request.type().equals(RoleType.ADMIN)) {
-			throw new BusinessException(IdentityExceptions.REGISTRATION_ERROR, "Role type not found.");
-		}
-
 		if (userRepository.existsByEmail(request.email())) {
 			throw new EmailAlreadyUsedException("Email already exists");
 		}
 
-		Role role = roleRepository.findByName(request.type())
+		RoleType roleType = Optional.ofNullable(request.type()).orElse(RoleType.USER);
+
+		if (roleType.equals(RoleType.ADMIN)) {
+			throw new BusinessException(IdentityExceptions.REGISTRATION_ERROR, "Role type not found.");
+		}
+
+		Role role = roleRepository.findByName(roleType)
 				.orElseThrow(() -> new ResourceNotFoundException("Role not found"));
 
 		User user = User.builder()
