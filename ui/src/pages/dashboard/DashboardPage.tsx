@@ -90,7 +90,7 @@ export default function DashboardPage() {
 
     return (
         <SectionLayoutComponent
-            title="Dashboard"
+            title="My Finance"
             description="Your financial overview at a glance."
             search={
                 !errors && dashboard

@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useEffect, useState, type ReactNode } from "react";
 import ActionButton from "../ActionButtonComponent";
+import DividerComponent from "../DividerComponent";
 import NavbarComponent from "./NavbarComponent";
 
 type DashboardLayoutProps = {
@@ -81,10 +82,8 @@ export default function DashboardLayout({
                                 className="size-12 object-cover"
                             />
                             <div className="">
-                                <span className="block text-lg">Finance Tracker</span>
-                                <span className="block text-xs">
-                                    Start Managing your personal finances.
-                                </span>
+                                <span className="block text-lg">PFT</span>
+                                <DividerComponent text="Personal Finance Tracker" />
                             </div>
                         </div>
                     </div>

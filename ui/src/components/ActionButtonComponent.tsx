@@ -6,6 +6,7 @@ import type { IconProps } from "./commons";
 
 export type ActionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     icon?: IconProps;
+    iconAfter?: boolean;
     customise?: string;
     customiseIcon?: string;
     customiseText?: string;
@@ -15,6 +16,7 @@ export type ActionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export default function ActionButton({
     icon: Icon,
+    iconAfter = false,
     customise,
     customiseIcon,
     customiseText,
@@ -29,15 +31,25 @@ export default function ActionButton({
                 className={`flex items-center gap-1.5 text-md ${props.disabled && `pointer-events-none opacity-70`} ${spinner && spinner.isLoading ? `cursor-progress` : ``} ${props.className}`}
                 type={props.type ?? "button"}
             >
-                {spinner && spinner.isLoading ? (
-                    <SpinnerComponent
-                        {...spinner}
-                        customize={`w-fit! ${spinner.customize}`}
-                    />
-                ) : (
-                    Icon && <Icon className={`size-4 ${customiseIcon}`} />
-                )}
+                {!iconAfter &&
+                    (spinner && spinner.isLoading ? (
+                        <SpinnerComponent
+                            {...spinner}
+                            customize={`w-fit! ${spinner.customize}`}
+                        />
+                    ) : (
+                        Icon && <Icon className={`size-4 ${customiseIcon}`} />
+                    ))}
                 {text && <span className={customiseText}>{text}</span>}
+                {iconAfter &&
+                    (spinner && spinner.isLoading ? (
+                        <SpinnerComponent
+                            {...spinner}
+                            customize={`w-fit! ${spinner.customize}`}
+                        />
+                    ) : (
+                        Icon && <Icon className={`size-4 ${customiseIcon}`} />
+                    ))}
             </button>
         </div>
     );
