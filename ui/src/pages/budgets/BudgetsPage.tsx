@@ -2,6 +2,7 @@ import {
     ArrowPathIcon,
     BanknotesIcon,
     CalendarDaysIcon,
+    CheckBadgeIcon,
     PencilSquareIcon,
     PlusIcon,
     TrashIcon,
@@ -34,6 +35,7 @@ import type {
     CreateBudgetRequest,
 } from "../../types/FinanceTypes";
 
+import ActionButton from "../../components/ActionButtonComponent";
 import { formatCurrency } from "../../utils/CurrencyFormatter";
 import SummaryCard from "../dashboard/SummaryCard";
 
@@ -78,6 +80,7 @@ export default function BudgetsPage() {
     const [editingBudget, setEditingBudget] = useState<Budget | null>(null);
     const [form, setForm] = useState<CreateBudgetRequest>(EMPTY_FORM);
 
+    const [fetchError, setFetchError] = useState<boolean>(false);
     useEffect(() => {
         if (!selectedMonth.trim()) {
             queueMicrotask(() => {
@@ -99,9 +102,14 @@ export default function BudgetsPage() {
                 setBudgets(budgetResponse.data);
                 setCategories(categoryResponse.data);
                 setUtilization(dashboardResponse.data.budgetUtilization ?? []);
+                setFetchError(false);
             })
             .catch((error: ErrorResponse) => {
                 if (!active) return;
+
+                if (error.errorCode === "500") {
+                    setFetchError(true);
+                }
 
                 setNotifications({
                     type: "error",
@@ -297,23 +305,30 @@ export default function BudgetsPage() {
             <SectionLayoutComponent
                 title="Budgets"
                 description="Plan your monthly spending and monitor budget utilization."
-                actionButtons={[
-                    {
-                        icon: PlusIcon,
-                        text: "Add Budget",
-                        className: "primary",
-                        onClick: openCreateModal,
-                    },
-                    {
-                        icon: ArrowPathIcon,
-                        text: "Refresh",
-                        onClick() {
-                            setLoading(true);
-                            setNotifications(null);
-                            setRefreshCount((count) => count + 1);
-                        },
-                    },
-                ]}
+                actionButtons={
+                    fetchError
+                        ? [
+                              {
+                                  icon: ArrowPathIcon,
+                                  text: "Retry",
+                                  className: "primary",
+                                  disabled: loading && budgets.length === 0,
+                                  onClick() {
+                                      setLoading(true);
+                                      setNotifications(null);
+                                      setRefreshCount((count) => count + 1);
+                                  },
+                              },
+                          ]
+                        : [
+                              {
+                                  icon: PlusIcon,
+                                  text: "Add Budget",
+                                  className: "primary",
+                                  onClick: openCreateModal,
+                              },
+                          ]
+                }
             >
                 <div className="space-y-5">
                     {notifications && <Notification {...notifications} />}
@@ -571,31 +586,29 @@ export default function BudgetsPage() {
                     />
 
                     <div className="flex justify-end gap-3 border-t pt-4">
-                        <button
-                            type="button"
+                        <ActionButton
+                            text="Cancel"
                             onClick={closeModal}
                             disabled={saving}
-                            className="secondary"
-                        >
-                            Cancel
-                        </button>
-
-                        <button
+                        />
+                        <ActionButton
                             type="submit"
+                            className="primary"
+                            text={
+                                saving
+                                    ? "Saving..."
+                                    : editingBudget
+                                      ? "Update Budget"
+                                      : "Save Budget"
+                            }
+                            icon={CheckBadgeIcon}
                             disabled={
                                 saving ||
                                 !form.categoryId ||
                                 form.amount <= 0 ||
                                 !form.month
                             }
-                            className="primary"
-                        >
-                            {saving
-                                ? "Saving..."
-                                : editingBudget
-                                  ? "Update Budget"
-                                  : "Save Budget"}
-                        </button>
+                        />
                     </div>
                 </form>
             </ModalComponent>

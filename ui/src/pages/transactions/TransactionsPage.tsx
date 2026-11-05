@@ -2,6 +2,7 @@ import {
     ArrowPathIcon,
     BanknotesIcon,
     CalendarDaysIcon,
+    CheckBadgeIcon,
     InformationCircleIcon,
     MagnifyingGlassIcon,
     PencilSquareIcon,
@@ -9,6 +10,7 @@ import {
     SwatchIcon,
     TrashIcon,
     XCircleIcon,
+    XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -79,6 +81,7 @@ export default function TransactionsPage() {
 
     const [categoryError, setCategoryError] = useState("");
 
+    const [fetchError, setFetchError] = useState<boolean>(false);
     useEffect(() => {
         let active = true;
 
@@ -86,10 +89,16 @@ export default function TransactionsPage() {
             .then((response) => {
                 if (active) {
                     setCategories(response.data);
+
+                    setFetchError(false);
                 }
             })
             .catch((error: ErrorResponse) => {
                 if (active) {
+                    if (error.errorCode === "500") {
+                        setFetchError(true);
+                    }
+
                     setNotifications({
                         type: "error",
                         messages: error,
@@ -116,11 +125,17 @@ export default function TransactionsPage() {
             .then((response) => {
                 if (!active) return;
 
+                setFetchError(false);
+
                 setTransactions(response.data);
                 setNotifications(null);
             })
             .catch((error: ErrorResponse) => {
                 if (!active) return;
+
+                if (error.errorCode === "500") {
+                    setFetchError(true);
+                }
 
                 setTransactions([]);
 
@@ -327,22 +342,29 @@ export default function TransactionsPage() {
                     isLoading: loading && transactions.length === 0,
                     text: "Loading transactions...",
                 }}
-                actionButtons={[
-                    {
-                        icon: PlusIcon,
-                        text: "Add Transaction",
-                        className: "primary",
-                        onClick: openCreateModal,
-                    },
-                    {
-                        icon: ArrowPathIcon,
-                        text: "Refresh",
-                        onClick() {
-                            setLoading(true);
-                            setRefreshCount((count) => count + 1);
-                        },
-                    },
-                ]}
+                actionButtons={
+                    fetchError
+                        ? [
+                              {
+                                  icon: ArrowPathIcon,
+                                  text: "Retry",
+                                  className: "primary",
+                                  disabled: loading && transactions.length === 0,
+                                  onClick() {
+                                      setLoading(true);
+                                      setRefreshCount((count) => count + 1);
+                                  },
+                              },
+                          ]
+                        : [
+                              {
+                                  icon: PlusIcon,
+                                  text: "Add Transaction",
+                                  className: "primary",
+                                  onClick: openCreateModal,
+                              },
+                          ]
+                }
             >
                 <div className="space-y-5">
                     {notifications && <Notification {...notifications} />}
@@ -672,28 +694,27 @@ export default function TransactionsPage() {
                     </div>
 
                     <div className="flex justify-end gap-3 border-t pt-4">
-                        <button
-                            type="button"
-                            onClick={closeModal}
+                        <ActionButton
+                            icon={XMarkIcon}
+                            text="Cancel"
                             disabled={saving}
-                            className="secondary"
-                        >
-                            Cancel
-                        </button>
-
-                        <button
+                            onClick={closeModal}
+                        />
+                        <ActionButton
+                            text={
+                                saving
+                                    ? "Saving..."
+                                    : editingTransaction
+                                      ? "Update Transaction"
+                                      : "Save Transaction"
+                            }
+                            icon={CheckBadgeIcon}
                             type="submit"
+                            className="primary"
                             disabled={
                                 saving || availableCategories.length === 0
                             }
-                            className="primary"
-                        >
-                            {saving
-                                ? "Saving..."
-                                : editingTransaction
-                                  ? "Update Transaction"
-                                  : "Save Transaction"}
-                        </button>
+                        />
                     </div>
                 </form>
             </ModalComponent>
