@@ -1,5 +1,6 @@
 import {
     ArrowPathIcon,
+    CheckCircleIcon,
     InformationCircleIcon,
     MagnifyingGlassIcon,
     PlusIcon,
@@ -45,19 +46,20 @@ const EMPTY_FORM: CreateCategoryRequest = {
 export default function CategoriesPage() {
     const [categories, setCategories] = useState<Category[]>([]);
 
-    const [loading, setLoading] = useState(true);
-    const [saving, setSaving] = useState(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [saving, setSaving] = useState<boolean>(false);
 
     const [notifications, setNotifications] =
         useState<NotificationProps | null>(null);
 
-    const [typeFilter, setTypeFilter] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [refreshCount, setRefreshCount] = useState(0);
+    const [typeFilter, setTypeFilter] = useState<string>("");
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [refreshCount, setRefreshCount] = useState<number>(0);
 
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [form, setForm] = useState<CreateCategoryRequest>(EMPTY_FORM);
 
+    const [fetchErrors, setFetchErrors] = useState<boolean>(false);
     useEffect(() => {
         let active = true;
 
@@ -65,10 +67,15 @@ export default function CategoriesPage() {
             .then((response) => {
                 if (active) {
                     setCategories(response.data);
+                    setFetchErrors(false);
                 }
             })
             .catch((error: ErrorResponse) => {
                 if (!active) return;
+
+                if (error.errorCode === "500") {
+                    setFetchErrors(true);
+                }
 
                 setNotifications({
                     type: "error",
@@ -218,22 +225,29 @@ export default function CategoriesPage() {
                     isLoading: loading && categories.length === 0,
                     text: "Loading categories...",
                 }}
-                actionButtons={[
-                    {
-                        icon: PlusIcon,
-                        text: "Add Category",
-                        className: "primary",
-                        onClick: openCreateModal,
-                    },
-                    {
-                        icon: ArrowPathIcon,
-                        text: "Refresh",
-                        onClick() {
-                            setLoading(true);
-                            setRefreshCount((count) => count + 1);
-                        },
-                    },
-                ]}
+                actionButtons={
+                    fetchErrors
+                        ? [
+                              {
+                                  icon: ArrowPathIcon,
+                                  text: "Retry",
+                                  className: "primary",
+                                  disabled: loading && categories.length === 0,
+                                  onClick() {
+                                      setLoading(true);
+                                      setRefreshCount((count) => count + 1);
+                                  },
+                              },
+                          ]
+                        : [
+                              {
+                                  icon: PlusIcon,
+                                  text: "Add Category",
+                                  className: "primary",
+                                  onClick: openCreateModal,
+                              },
+                          ]
+                }
             >
                 <div className="space-y-5">
                     {notifications && <Notification {...notifications} />}
@@ -470,22 +484,18 @@ export default function CategoriesPage() {
                     </div>
 
                     <div className="flex justify-end gap-3 border-t pt-4">
-                        <button
-                            type="button"
+                        <ActionButton
+                            text="Cancel"
                             onClick={closeModal}
                             disabled={saving}
-                            className="secondary"
-                        >
-                            Cancel
-                        </button>
-
-                        <button
+                        />
+                        <ActionButton
                             type="submit"
-                            disabled={saving || !form.name.trim()}
+                            text={saving ? "Saving..." : "Save Category"}
+                            icon={CheckCircleIcon}
                             className="primary"
-                        >
-                            {saving ? "Saving..." : "Save Category"}
-                        </button>
+                            disabled={saving || !form.name.trim()}
+                        />
                     </div>
                 </form>
             </ModalComponent>
