@@ -24,7 +24,7 @@ export default function NavbarComponent({
     handleLoginClick,
     handleRegisterClick,
 }: NavbarComponentProps) {
-    const { profile: user, isLoggedIn, logout } = useAuthContext();
+    const { profile: user, isAdmin, isLoggedIn, logout } = useAuthContext();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -32,8 +32,8 @@ export default function NavbarComponent({
     const navItems: {
         page: string;
         uri: string;
-        variants?: string[];
         icon: IconProps;
+        variants?: string[];
         roles?: RoleType[];
     }[] = [
         {
@@ -43,22 +43,24 @@ export default function NavbarComponent({
             roles: [RoleType.ADMIN],
         },
         {
+            page: isAdmin ? "My Finance" : "Dashboard",
+            uri: RoutePaths.DASHBOARD,
+            icon: ChartBarIcon,
+        },
+        {
             page: "Transactions",
             uri: RoutePaths.TRANSACTIONS,
             icon: BanknotesIcon,
-            roles: [RoleType.ADMIN],
         },
         {
             page: "Categories",
             uri: RoutePaths.CATEGORIES,
             icon: SwatchIcon,
-            roles: [RoleType.ADMIN],
         },
         {
             page: "Budgets",
             uri: RoutePaths.BUDGETS,
             icon: CircleStackIcon,
-            roles: [RoleType.ADMIN],
         },
         {
             page: user.name ?? "Profile",
