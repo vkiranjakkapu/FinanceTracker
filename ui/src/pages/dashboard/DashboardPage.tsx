@@ -314,7 +314,7 @@ export default function DashboardPage() {
 
                                                         <span className="text-slate-500">
                                                             {formatCurrency(
-                                                                budget.spent,
+                                                                budget.spentAmount,
                                                             )}{" "}
                                                             /{" "}
                                                             {formatCurrency(
@@ -354,8 +354,8 @@ export default function DashboardPage() {
                                                             }
                                                         >
                                                             {exceeded
-                                                                ? `${formatCurrency(Math.abs(budget.remaining))} over budget`
-                                                                : `${formatCurrency(budget.remaining)} remaining`}
+                                                                ? `${formatCurrency(Math.abs(budget.remainingAmount))} over budget`
+                                                                : `${formatCurrency(budget.remainingAmount)} remaining`}
                                                         </span>
                                                     </div>
                                                 </div>
