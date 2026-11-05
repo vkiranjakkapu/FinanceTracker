@@ -24,7 +24,7 @@ export default function NavbarComponent({
     handleLoginClick,
     handleRegisterClick,
 }: NavbarComponentProps) {
-    const { profile: user, isAdmin, isLoggedIn, logout } = useAuthContext();
+    const { profile: user, isLoggedIn, logout } = useAuthContext();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -37,13 +37,7 @@ export default function NavbarComponent({
         roles?: RoleType[];
     }[] = [
         {
-            page: "Dashboard",
-            uri: RoutePaths.DASHBOARD,
-            icon: ChartBarIcon,
-            roles: [RoleType.ADMIN],
-        },
-        {
-            page: isAdmin ? "My Finance" : "Dashboard",
+            page: "My Finance",
             uri: RoutePaths.DASHBOARD,
             icon: ChartBarIcon,
         },
